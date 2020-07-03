@@ -1,32 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using MedicalSystem.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalSystem.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+
+
+        public HomeController()
         {
-            _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string filterString)
+        {
+            if(string.IsNullOrEmpty(filterString))
+            {
+                return View(TestDataBasePleaseDelete.Doctors);
+            }
+
+            return View(TestDataBasePleaseDelete.Doctors.Where(x=> x.Name.Contains(filterString)).ToList());
+            
+        }
+
+        public IActionResult View(int indexOfDoctor)
+        {
+            return RedirectToAction("Index", "Prescription", new { indexOfDoctor = indexOfDoctor});
+        }
+
+        public IActionResult Add()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Add(DoctorViewModel doctorVm)
+        {
+            TestDataBasePleaseDelete.Doctors.Add(doctorVm);
+
+            return RedirectToAction("index");
+        }
+
+
+        public IActionResult Delete(int indexOfDoctor)
         {
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
