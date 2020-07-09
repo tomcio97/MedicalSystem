@@ -7,6 +7,7 @@ using MedicalSystem.Core.Mappers;
 using MedicalSystem.Database;
 using MedicalSystem.Database.Interfaces;
 using MedicalSystem.Database.Repositories;
+using MedicalSystem.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,8 +39,9 @@ namespace MedicalSystem
             services.AddTransient<IDoctorRepository, DoctorRepository>();
             services.AddTransient<IPrescriptionRepository, PrescriptionRepository>();
             services.AddTransient<IMedicineRepository, MedicineRepository>();
-            services.AddTransient<DtoMapper>();
             services.AddTransient<IDoctorManager, DoctorManager>();
+            services.AddTransient<DtoMapper>(); 
+            services.AddTransient<ViewModelMapper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
