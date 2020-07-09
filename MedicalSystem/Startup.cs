@@ -2,7 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MedicalSystem.Core;
+using MedicalSystem.Core.Mappers;
 using MedicalSystem.Database;
+using MedicalSystem.Database.Interfaces;
+using MedicalSystem.Database.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,6 +34,12 @@ namespace MedicalSystem
             services.AddDbContext<ApplicationDbContext>(options => {
             options.UseSqlServer("Server=.;Database=MedicalSystemDatabase;Trusted_Connection=True;");
             });
+
+            services.AddTransient<IDoctorRepository, DoctorRepository>();
+            services.AddTransient<IPrescriptionRepository, PrescriptionRepository>();
+            services.AddTransient<IMedicineRepository, MedicineRepository>();
+            services.AddTransient<DtoMapper>();
+            services.AddTransient<IDoctorManager, DoctorManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
